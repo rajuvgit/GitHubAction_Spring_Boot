@@ -11,7 +11,7 @@ public class GithubCicdActionsApplication {
 
 	@GetMapping("/welcome")
 	public String welcome(){
-		return " Successfully Build Spring-Boot Application & Pushed to Docker Hub  !";
+		return " **Successfully Build Spring-Boot Application & Pushed to Docker Hub  !** ";
 	}
 
 //	echo "# github-actions-example" >> README.md
