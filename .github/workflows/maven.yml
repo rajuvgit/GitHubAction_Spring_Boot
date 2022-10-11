@@ -10,7 +10,9 @@ on:
     branches: [ "prod" ]
 
 jobs:
+
   build:
+    name: run name-Test || CommitID - ${{github.sha}}
 
     runs-on: ubuntu-latest
 
