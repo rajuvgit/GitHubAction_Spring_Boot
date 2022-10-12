@@ -1,4 +1,4 @@
-run-name: Project-NodeJs CI/CD Flow ${{ github.workflow_dispatch }}
+run-name: Project-NodeJs CI/CD Flow ${{ github.workflow_dispatch.inputs }}
 
 on:
   workflow_dispatch:
