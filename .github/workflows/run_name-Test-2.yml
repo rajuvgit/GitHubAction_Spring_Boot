@@ -1,4 +1,4 @@
-run-name: Project-NodeJs CI/CD Flow Deploy to ${{ github.event.inputs.CICD_prod }} by @${{ github.ref_name }}
+run-name: Project-NodeJs CI/CD Flow Deploy to ${{ github.inputs.CICD_prod }} by @${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -6,11 +6,27 @@ on:
       
       CICD_prod:
         type: boolean
-        desciption: 'multibuild - CICD-Production'
+        description: 'multibuild - CICD-Production'
+        default: "false"
+        required: true
+      
+      Test_prod:
+        type: boolean
+        description: 'multibuild - Test-Production'
         default: "false"
         required: true
 
 jobs:
+
+  Test-poker-build:
+    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || ${{github.inputs.Test_prod }} || ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    if: |
+        contains(github.event.inputs.Test_prod, 'true')
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
 
   gamio-poker-build:
     name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
