@@ -4,10 +4,14 @@
 run-name: Project-NodeJs CI/CD Flow ${{ github.actor }}
 
 on:
-  push:
-    branches: [ "prod" ]
-  pull_request:
-    branches: [ "prod" ]
+  workflow_dispatch:
+    inputs:
+      
+      NodeApp_BE_prod:
+        type: boolean
+        desciption: 'multibuild - NodeApp_BE_Production'
+        default: "false"
+        required: true
 
 jobs:
 
@@ -15,6 +19,8 @@ jobs:
     name: run name-Test || CommitID - ${{github.sha}}
 
     runs-on: ubuntu-latest
+    if: |
+        contains(github.event.inputs.NodeApp_BE_prod, 'true')
 
     steps:
     - uses: actions/checkout@v3
