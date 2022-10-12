@@ -18,15 +18,6 @@ on:
 
 jobs:
 
-  Test-poker-build:
-    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || ${{github.inputs.Test_prod }} || ${{ github.ref_name }}
-    runs-on: ubuntu-latest
-    if: |
-        contains(github.event.inputs.Test_prod, 'true')
-
-    steps:
-    - name: Set up JDK 11
-
   gamio-poker-build:
     name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
     runs-on: ubuntu-latest
