@@ -1,4 +1,4 @@
-run-name: Project-NodeJs CI/CD Flow Deploy to ${{ inputs.CICD_prod }} by @${{ github.ref_name }}
+run-name: Project-NodeJs CI/CD Flow  ${{ github.ref_name }} | ${{ inputs.CICD_prod }} | ${{ github.run_number }} | 
 
 on:
   workflow_dispatch:
