@@ -3,14 +3,6 @@ name: CI/CD pipeline
 on:
   workflow_dispatch:
     inputs:
-    
-      fast_build:
-        type: choice
-        description: 'Fast Build'
-        options:
-        - Cached_build
-        - Clean_build
-        required: true
         
       CI_CD_develop:
         type: boolean
@@ -91,10 +83,9 @@ jobs:
 
 
     - name: CI/CD Build - Clean
-      if: |
-        contains(github.event.inputs.fast_build, 'Clean_build')
+    
       run: |
-        docker build --build-arg LAST_COMMIT_TIME=$LAST_COMMIT_TIME --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP --build-arg BUILD_NUMBER=$BUILD_NUMBER --build-arg BUILD_NUMBER_ATTEMPT=$BUILD_NUMBER_ATTEMPT -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
+        docker build LAST_COMMIT_TIME=$LAST_COMMIT_TIME --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP --build-arg BUILD_NUMBER=$BUILD_NUMBER --build-arg BUILD_NUMBER_ATTEMPT=$BUILD_NUMBER_ATTEMPT -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
 
 
 
@@ -102,7 +93,7 @@ jobs:
  #     if: |
  #       contains(github.event.inputs.fast_build, 'Cached_build')
  #     run: |
- #       docker build --build-arg LAST_COMMIT_TIME=$LAST_COMMIT_TIME --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP --build-arg BUILD_NUMBER=$BUILD_NUMBER --build-arg BUILD_NUMBER_ATTEMPT=$BUILD_NUMBER_ATTEMPT --cache-from ${CACHED_IMAGE} -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
+ #       docker build  -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
 
 
 
