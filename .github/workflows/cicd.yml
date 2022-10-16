@@ -4,15 +4,6 @@ on:
   workflow_dispatch:
     inputs:
     
-           
-      fast_build:
-        type: choice
-        description: 'Fast Build'
-        options:
-        - Cached_build
-        - Clean_build
-        required: true
-        
       CI_CD_develop:
         type: boolean
         description: 'MultiBuild -CI/CD-Develop'
@@ -24,24 +15,20 @@ env:
   AWS_REGION: ap-south-1
  #CACHED_IMAGE: "repo_org_name/nodejs-official:cicd-cached-v1"
 
-
-
 jobs:
-  CI/CD_develop-build:
-    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || Pipeline User - ${{ github.actor }} || Branch/Tag - ${{ github.ref_name }} || ${{ github.inputs.CI/CD_develop }}
+  CI_CD_develop-build:
+    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || Pipeline User - ${{ github.actor }} || Branch/Tag - ${{ github.ref_name }} || ${{ github.inputs.CI_CD_develop }}
     runs-on: ubuntu-latest
     if: |
-        contains(github.event.inputs.CI/CD_develop, 'true')
+        contains(github.event.inputs.CI_CD_develop, 'true')
 
-
-
-   steps:
+    steps:
     - name: Checkout
       uses: actions/checkout@v2
 
 
 
-   - name: Last commit time and build time
+    - name: Last commit time and build time
       run: |
         git --version
         node --version
@@ -58,7 +45,7 @@ jobs:
 
 
 
-   - name: Pipeline Info
+    - name: Pipeline Info
       run: |
         echo "Job ID: ${{ github.run_number }}"
         echo "CommitID: ${{ github.sha }}"
@@ -72,7 +59,7 @@ jobs:
 
 
 
-   - name: Dockerhub Login
+    - name: Dockerhub Login
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
@@ -80,7 +67,7 @@ jobs:
 
 
 
-   - name: Configure AWS Credentials
+    - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -89,13 +76,13 @@ jobs:
 
 
 
-   - name: ECR Login
+    - name: ECR Login
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
 
 
-   - name: CI/CD Build - Clean
+    - name: CI/CD Build - Clean
       if: |
         contains(github.event.inputs.fast_build, 'Clean_build')
       run: |
@@ -111,7 +98,7 @@ jobs:
 
 
 
-   - name: CI/CD Push to ECR
+    - name: CI/CD Push to ECR
       run: |
         docker push 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG
       # docker 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG ${CACHED_IMAGE}
@@ -127,5 +114,4 @@ jobs:
         sed -i "s/VERSION/${IMAGE_TAG}/g" definition.json
         aws ecs register-task-definition --cli-input-json file://definition.json --region=${AWS_REGION}
         LATEST_REV=$(aws ecs describe-task-definition --task-definition dev-CICD --region=${AWS_REGION} --query 'taskDefinition.taskDefinitionArn' | cut -d '/' -f2 | tr -cd [:digit:])
-      # aws autoscaling set-desired-capacity --auto-scaling-group-name develop-cicd-scaling-group  --desired-capacity 2 --honor-cooldown --region=${AWS_REGION}
         aws ecs update-service --force-new-deployment --cluster develop-cluster --service dev-CICD --task-definition dev-CICD:${LATEST_REV} --desired-count 1 --region=${AWS_REGION}
