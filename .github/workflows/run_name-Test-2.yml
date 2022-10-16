@@ -9,12 +9,6 @@ on:
         description: 'multibuild - CICD-Production'
         default: "false"
         required: true
-      
-      Test_prod:
-        type: boolean
-        description: 'multibuild - Test-Production'
-        default: "false"
-        required: true
 
 jobs:
 
@@ -62,6 +56,16 @@ jobs:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: java-app
         IMAGE_TAG: ${{ github.sha }}
+        AWS_REGION: ap-south-1
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        
+    - name: Deploy CICD NodeApp for Dev Environment
+      if: |
+        contains(github.event.inputs.CICD_develop, 'true')
+      run: |
+        sed -i "s/VERSION/${IMAGE_TAG}/g" definition.json
+        aws ecs register-task-definition --cli-input-json file://definition.json --region=${AWS_REGION}
+        LATEST_REV=$(aws ecs describe-task-definition --task-definition dev-CICD --region=${AWS_REGION} --query 'taskDefinition.taskDefinitionArn' | cut -d '/' -f2 | tr -cd [:digit:])
+        aws ecs update-service --force-new-deployment --cluster develop-cluster --service dev-CICD --task-definition dev-CICD:${LATEST_REV} --desired-count 1 --region=${AWS_REGION}
