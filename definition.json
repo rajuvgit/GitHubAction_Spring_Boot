@@ -1,0 +1,48 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "containerDefinitions": [
+        {
+            "name": "dev-CICD",
+            "image": "image-Path.dkr.ecr.ap-south-1.amazonaws.com/cicd_demo:VERSION",
+            "essential": true,
+            "linuxParameters": {
+                "initProcessEnabled": true
+            },
+            "portMappings": [
+                {
+                    "containerPort": 3880,
+                    "protocol": "tcp"
+                }
+            ],
+            "environmentFiles": [
+                {
+                    "type": "s3",
+                    "value": "arn:aws:s3:::fargate-cluster-configurations/CICD-configurations/dev-CICD.env"
+                }
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/dev-CICD",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "cicd"
+                }
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "4096",
+    "cpu": "2048",
+    "executionRoleArn": "arn:aws:iam::031476083427:role/ecsTaskExecutionRole",
+    "family": "dev-CICD",
+    "taskRoleArn": "arn:aws:iam::031476083427:role/ecsTaskExecutionRole",
+    "tags": [
+        {
+            "key": "Name",
+            "value": "dev-CICD"
+        }
+    ]
+}
