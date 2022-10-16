@@ -1,0 +1,131 @@
+name: CI/CD pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+     
+      fast_build:
+        type: choice
+        description: 'Fast Build'
+        options:
+        - Cached_build
+        - Clean_build
+        required: true
+      
+      CI/CD_develop:
+        type: boolean
+        description: 'MultiBuild -CI/CD-Develop'
+        default: "false"
+        required: true
+
+
+env:
+  IMAGE_TAG: ${{ github.sha }}
+  AWS_REGION: ap-south-1
+ #CACHED_IMAGE: "repo_org_name/nodejs-official:cicd-cached-v1"
+
+
+
+jobs:
+  CI/CD_develop-build:
+    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || Pipeline User - ${{ github.actor }} || Branch/Tag - ${{ github.ref_name }} || ${{ github.inputs.CI/CD_develop }}
+    runs-on: ubuntu-latest
+    if: |
+        contains(github.event.inputs.CI/CD_develop, 'true')
+
+
+
+   steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+
+
+   - name: Last commit time and build time
+      run: |
+        git --version
+        node --version
+        docker --version
+        git show -s --format=%ct
+
+
+
+        echo LAST_COMMIT_TIME=`git show -s --format=%ct` >> $GITHUB_ENV
+        echo BUILD_TIMESTAMP=`date +%s` >> $GITHUB_ENV
+        echo BUILD_NUMBER=${{ github.run_number }} >> $GITHUB_ENV
+        echo BUILD_NUMBER_ATTEMPT=${{ github.run_attempt }} >> $GITHUB_ENV
+        cat $GITHUB_ENV
+
+
+
+   - name: Pipeline Info
+      run: |
+        echo "Job ID: ${{ github.run_number }}"
+        echo "CommitID: ${{ github.sha }}"
+        echo "Commit Source: ${{ github.ref_type }}"
+        echo "Pipeline User: ${{ github.actor }}"
+        echo "Branch/Tag: ${{ github.ref_name }}"
+        echo "Attampt ID: ${{ github.run_attempt }}"
+        echo "Author Name: `git show -s --format='%aN' ${{ github.sha }}`"
+        echo "Author Email: `git show -s --format='%ae' ${{ github.sha }}`"
+        echo "Commit Time: `git show -s --format='%ad' ${{ github.sha }}`"
+
+
+
+   - name: Dockerhub Login
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+
+   - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+
+
+   - name: ECR Login
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+
+
+   - name: CI/CD Build - Clean
+      if: |
+        contains(github.event.inputs.fast_build, 'Clean_build')
+      run: |
+        docker build --build-arg LAST_COMMIT_TIME=$LAST_COMMIT_TIME --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP --build-arg BUILD_NUMBER=$BUILD_NUMBER --build-arg BUILD_NUMBER_ATTEMPT=$BUILD_NUMBER_ATTEMPT -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
+
+
+
+ #  - name: CI/CD Build - Cached container
+ #     if: |
+ #       contains(github.event.inputs.fast_build, 'Cached_build')
+ #     run: |
+ #       docker build --build-arg LAST_COMMIT_TIME=$LAST_COMMIT_TIME --build-arg BUILD_TIMESTAMP=$BUILD_TIMESTAMP --build-arg BUILD_NUMBER=$BUILD_NUMBER --build-arg BUILD_NUMBER_ATTEMPT=$BUILD_NUMBER_ATTEMPT --cache-from ${CACHED_IMAGE} -t 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG .
+
+
+
+   - name: CI/CD Push to ECR
+      run: |
+        docker push 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG
+      # docker 031476083427.dkr.ecr.${AWS_REGION}.amazonaws.com/cicd_demo:$IMAGE_TAG ${CACHED_IMAGE}
+      # docker push ${CACHED_IMAGE}
+
+
+
+  
+    - name: Deploy CICD NodeApp for Dev Environment
+      if: |
+        contains(github.event.inputs.CICD_develop, 'true')
+      run: |
+        sed -i "s/VERSION/${IMAGE_TAG}/g" definition.json
+        aws ecs register-task-definition --cli-input-json file://definition.json --region=${AWS_REGION}
+        LATEST_REV=$(aws ecs describe-task-definition --task-definition dev-CICD --region=${AWS_REGION} --query 'taskDefinition.taskDefinitionArn' | cut -d '/' -f2 | tr -cd [:digit:])
+      # aws autoscaling set-desired-capacity --auto-scaling-group-name develop-cicd-scaling-group  --desired-capacity 2 --honor-cooldown --region=${AWS_REGION}
+        aws ecs update-service --force-new-deployment --cluster develop-cluster --service dev-CICD --task-definition dev-CICD:${LATEST_REV} --desired-count 1 --region=${AWS_REGION}
