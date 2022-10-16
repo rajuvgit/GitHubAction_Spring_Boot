@@ -9,7 +9,7 @@ on:
       
       NodeApp_BE_prod:
         type: boolean
-        desciption: 'multibuild - NodeApp_BE_Production'
+        description: 'multibuild - NodeApp_BE_Production'
         default: "false"
         required: true
 
