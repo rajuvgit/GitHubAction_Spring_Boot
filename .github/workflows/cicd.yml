@@ -4,6 +4,14 @@ on:
   workflow_dispatch:
     inputs:
     
+      fast_build:
+        type: choice
+        description: 'Fast Build'
+        options:
+        - Cached_build
+        - Clean_build
+        required: true
+        
       CI_CD_develop:
         type: boolean
         description: 'MultiBuild -CI/CD-Develop'
