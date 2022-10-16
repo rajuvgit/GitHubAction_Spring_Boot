@@ -3,7 +3,8 @@ name: CI/CD pipeline
 on:
   workflow_dispatch:
     inputs:
-     
+    
+           
       fast_build:
         type: choice
         description: 'Fast Build'
@@ -11,13 +12,12 @@ on:
         - Cached_build
         - Clean_build
         required: true
-      
-      CI/CD_develop:
+        
+      CI_CD_develop:
         type: boolean
         description: 'MultiBuild -CI/CD-Develop'
         default: "false"
         required: true
-
 
 env:
   IMAGE_TAG: ${{ github.sha }}
