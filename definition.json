@@ -5,7 +5,7 @@
     "containerDefinitions": [
         {
             "name": "dev-CICD",
-            "image": "image-Path.dkr.ecr.ap-south-1.amazonaws.com/cicd_demo:VERSION",
+            "image": "image-Path.dkr.ecr.ap-south-1.amazonaws.com/java-app:VERSION",
             "essential": true,
             "linuxParameters": {
                 "initProcessEnabled": true
