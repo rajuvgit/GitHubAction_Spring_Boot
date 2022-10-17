@@ -12,7 +12,7 @@ on:
         
       CICD_prod1:
         type: boolean
-        description: 'multibuild - CICD-Production'
+        description: 'multibuild - CICD-Production1'
         default: "false"
         required: true
 
