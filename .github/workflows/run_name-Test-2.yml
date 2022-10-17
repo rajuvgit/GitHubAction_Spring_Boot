@@ -1,5 +1,5 @@
 name: Project-NodeJs CI/CD Flow
-run-name: Dev-env = ${{ inputs.CICD_prod1 }} | Prod-Env = ${{ inputs.CICD_prod }}
+run-name: Prod-Env = ${{ inputs.CICD_prod }} | Stage-env = ${{ inputs.CICD_stage }} | Dev-env = ${{ inputs.CICD_dev }} 
 
 on:
   workflow_dispatch:
@@ -11,7 +11,13 @@ on:
         default: "false"
         required: true
         
-      CICD_prod1:
+      CICD_dev:
+        type: boolean
+        description: 'multibuild - CICD-Production1'
+        default: "false"
+        required: true
+        
+      CICD_stage:
         type: boolean
         description: 'multibuild - CICD-Production1'
         default: "false"
