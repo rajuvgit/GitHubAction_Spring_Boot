@@ -1,5 +1,5 @@
 name: Project-NodeJs CI/CD Flow
-run-name: Dev-env || ${{ github.ref_name }} | ${{ inputs.CICD_prod1 }} | Prod-Env ${{ inputs.CICD_prod }}
+run-name: Dev-env = ${{ inputs.CICD_prod1 }} | Prod-Env = ${{ inputs.CICD_prod }}
 
 on:
   workflow_dispatch:
