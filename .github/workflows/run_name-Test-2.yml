@@ -1,10 +1,16 @@
-run-name: Project-NodeJs CI/CD Flow || ${{ github.ref_name }} | ${{ inputs.CICD_prod }} | ${{ github.run_number }} | 
+run-name: Project-NodeJs CI/CD Flow || ${{ github.ref_name }} | ${{ inputs.CICD_prod1 }} | ${{ github.run_number }} | 
 
 on:
   workflow_dispatch:
     inputs:
       
       CICD_prod:
+        type: boolean
+        description: 'multibuild - CICD-Production'
+        default: "false"
+        required: true
+        
+      CICD_prod1:
         type: boolean
         description: 'multibuild - CICD-Production'
         default: "false"
