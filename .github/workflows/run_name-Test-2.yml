@@ -13,13 +13,13 @@ on:
         
       CICD_dev:
         type: boolean
-        description: 'multibuild - CICD-Production1'
+        description: 'multibuild - CICD-dev'
         default: "false"
         required: true
         
       CICD_stage:
         type: boolean
-        description: 'multibuild - CICD-Production1'
+        description: 'multibuild - CICD-stage'
         default: "false"
         required: true
 
