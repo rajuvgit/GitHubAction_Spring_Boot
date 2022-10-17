@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
         
-      CI_CD_develop:
+      cicd_develop:
         type: boolean
         description: 'MultiBuild -CI/CD-Develop'
         default: "false"
@@ -16,11 +16,11 @@ env:
  #CACHED_IMAGE: "repo_org_name/nodejs-official:cicd-cached-v1"
 
 jobs:
-  CI_CD_develop-build:
-    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || Pipeline User - ${{ github.actor }} || Branch/Tag - ${{ github.ref_name }} || ${{ github.inputs.CI_CD_develop }}
+  cicd_develop-build:
+    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || Pipeline User - ${{ github.actor }} || Branch - ${{ github.ref_name }} || ${{ github.inputs.cicd_develop }}
     runs-on: ubuntu-latest
     if: |
-        contains(github.event.inputs.CI_CD_develop, 'true')
+        contains(github.event.inputs.cicd_develop, 'true')
 
     steps:
     - name: Checkout
@@ -108,7 +108,7 @@ jobs:
   
     - name: Deploy CICD NodeApp for Dev Environment
       if: |
-        contains(github.event.inputs.CICD_develop, 'true')
+        contains(github.event.inputs.cicd_develop, 'true')
       run: |
         sed -i "s/VERSION/${IMAGE_TAG}/g" definition.json
         aws ecs register-task-definition --cli-input-json file://definition.json --region=${AWS_REGION}
