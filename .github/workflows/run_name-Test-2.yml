@@ -1,5 +1,5 @@
 name: NodeJs CI/CD Flow
-run-name: Prod-Env = ${{ inputs.CICD_prod }} | Stage-env = ${{ inputs.CICD_stage }} | Dev-env = ${{ inputs.CICD_dev }} | Git tag - ${{ github.GIT_TAG_NAME }} 
+run-name: Prod-Env = ${{ inputs.CICD_prod }} | Stage-env = ${{ inputs.CICD_stage }} | Dev-env = ${{ inputs.CICD_dev }} | Git tag - $GIT_TAG_NAME 
 
 on:
   workflow_dispatch:
