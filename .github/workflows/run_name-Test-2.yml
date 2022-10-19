@@ -31,7 +31,7 @@ env:
 jobs:
 
   gamio-poker-build:
-    name: Job ID - ${{ github.run_number }} | Git tag - ${{ github.tag }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
+    name: Git Tag - ${{ github.event.release.tag_name }} | Job ID - ${{ github.run_number }} | Git tag - ${{ github.tag }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
     runs-on: ubuntu-latest
     if: |
         contains(github.event.inputs.CICD_prod, 'true')
