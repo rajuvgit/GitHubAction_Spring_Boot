@@ -1,4 +1,4 @@
-name: TestPro CICD Flow
+name: TestPro CICD Flow1
 run-name:  Tag=  ${{ github.event.release.tag_name }} | Prod-Env = ${{ inputs.CICD_prod }} || CommitID - ${{ github.sha }} 
 
 on:
