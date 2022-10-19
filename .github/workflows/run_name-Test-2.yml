@@ -24,7 +24,9 @@ on:
         description: 'multibuild - CICD-stage'
         default: "false"
         required: true
-  
+        
+env:
+  IMAGE_TAG: ${{ github.event.release.tag_name }}
  
 jobs:
 
