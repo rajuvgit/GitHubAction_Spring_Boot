@@ -35,8 +35,8 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
       
-    
-    - uses: little-core-labs/get-git-tag@v3.0.1
+    - name: Git tag 
+      uses: little-core-labs/get-git-tag@v3.0.1
       id: tagName
       with:
         tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
@@ -85,7 +85,8 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         AWS_REGION: ap-south-1
       run: |
-        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        #docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG . 
+        docker build -t $REGISTRY/$REPOSITORY:$GIT_TAG_NAME .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         
     - name: Deploy CICD NodeApp for Dev Environment
