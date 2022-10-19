@@ -1,5 +1,5 @@
 name: NodeJs CI/CD Flow
-run-name: Prod-Env = ${{ inputs.CICD_prod }} | Git tag - $GIT_TAG_NAME | ${{ github.GIT_TAG_NAME }}
+run-name: Prod-Env = ${{ inputs.CICD_prod }} | Git tag - $GIT_TAG_NAME | Tag ${{ github.GIT_TAG_NAME }}
 
 on:
   workflow_dispatch:
@@ -39,7 +39,7 @@ jobs:
       uses: little-core-labs/get-git-tag@v3.0.2
       id: tagName
       with:
-        tagRegex: "foobar-(.*)"  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
+        tagRegex: ''  # Optional. Returns specified group text as tag name. Full tag string is returned if regex is not defined.
         tagRegexGroup: 1 # Optional. Default is 1
       
     - name: Set up JDK 11
