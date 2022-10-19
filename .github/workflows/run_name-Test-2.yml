@@ -1,5 +1,5 @@
-name: Project-NodeJs CI/CD Flow
-run-name: Prod-Env = ${{ inputs.CICD_prod }} | Stage-env = ${{ inputs.CICD_stage }} | Dev-env = ${{ inputs.CICD_dev }} 
+name: NodeJs CI/CD Flow
+run-name: Prod-Env = ${{ inputs.CICD_prod }} | Stage-env = ${{ inputs.CICD_stage }} | Dev-env = ${{ inputs.CICD_dev }} | 
 
 on:
   workflow_dispatch:
@@ -26,7 +26,7 @@ on:
 jobs:
 
   gamio-poker-build:
-    name: Job ID - ${{ github.run_number }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
+    name: Job ID - ${{ github.run_number }} | Git tag - ${{ github.tag }} || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
     runs-on: ubuntu-latest
     if: |
         contains(github.event.inputs.CICD_prod, 'true')
