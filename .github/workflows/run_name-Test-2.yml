@@ -1,5 +1,5 @@
 name: TestPro CICD Flow
-run-name:  Git Tag - ${{ github.Release}} | Prod-Env = ${{ inputs.CICD_prod }} | CommitID - ${{ github.sha }} 
+run-name:  Git Tag - ${{ inputs.tags }}  | Prod-Env = ${{ inputs.CICD_prod }} | CommitID - ${{ github.sha }} 
 #run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }}  ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_dev == 'true'] }}  ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} | ${{ github.ref_name }}
 on:
 
@@ -26,7 +26,7 @@ on:
         required: true
          
       tags:
-        description: 'Test scenario tags'
+        description: 'Enter tags'
         required: true 
         type: string  
         
