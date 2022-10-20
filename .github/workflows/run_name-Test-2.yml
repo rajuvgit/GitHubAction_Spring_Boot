@@ -34,8 +34,8 @@ jobs:
     name: Git Tag - ${{ github.event.release.tag_name }} | Job ID - ${{ github.run_number }}  || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
     runs-on: ubuntu-latest
     if: |
-        contains(github.event.inputs.CICD_prod, 'true') |
-        contains(github.event.inputs.CICD_dev, 'true') |
+        contains(github.event.inputs.CICD_prod, 'true') ||
+        contains(github.event.inputs.CICD_dev, 'true') ||
         contains(github.event.inputs.CICD_stage, 'true')
 
     steps:
