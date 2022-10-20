@@ -52,9 +52,9 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}     
-        tag: ${{ steps.tag_version.outputs.new_tag }}
-        name: Release ${{ steps.tag_version.outputs.new_tag }}
-        body: ${{ steps.tag_version.outputs.changelog }}  
+        tag: ${{ steps.outputs.new_tag }}
+        name: Release ${{ steps.outputs.new_tag }}
+        body: ${{ steps.outputs.changelog }}  
       
    
       
