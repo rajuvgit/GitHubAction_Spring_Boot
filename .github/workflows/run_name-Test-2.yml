@@ -46,13 +46,14 @@ jobs:
     
     - name: checkout
       uses: actions/checkout@v3
-      with:
-        fetch-depth: '161'
+
+        
       
     - name: Git tag
       id: tag_version
       uses: mathieudutour/github-tag-action@v6.0
       with:
+        fetch-depth: '162'
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
