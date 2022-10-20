@@ -45,7 +45,9 @@ jobs:
     steps:
     
     - name: checkout
-      uses: actions/checkout@v3 
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '161'
       
     - name: Git tag
       id: tag_version
