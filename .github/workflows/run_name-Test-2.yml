@@ -70,7 +70,7 @@ jobs:
       with:
           
         tag: ${{ steps.tag_version.outputs.new_tag }}
-        name: Auto_cicd ${{ steps.tag_version.outputs }}
+        name: Auto_cicd ${{ steps.tag_version.outputs.changelog }}
         body: ${{ steps.tag_version.outputs.changelog }}  
       
    
