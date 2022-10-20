@@ -1,26 +1,26 @@
 name: TestPro CICD Flow  
-#run-name:  Git Tag - ${{ inputs.tags }}  | Prod-Env = ${{ inputs.CICD_prod }} | auto_cicd_${{ github.run_number }}
-run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }} ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_dev == 'true'] }}  ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} | auto_cicd_${{ github.run_number }} | Branch- ${{ github.ref_name }}
-#         ENVs- ${{ fromJSON('["|", "gamio-prod"]')[github.event.inputs.gamio_production == 'true'] }}
+#run-name:  Git Tag - ${{ inputs.tags }}  | Prod-Env = ${{ inputs.prod_env }} | auto_cicd_${{ github.run_number }}
+run-name: ENVs- ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}  ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} | auto_cicd_${{ github.run_number }} | Branch- ${{ github.ref_name }}
+
 on:
 
   workflow_dispatch: 
   
     inputs:
       
-      CICD_prod:
+      prod_env:
         type: boolean
         description: 'multibuild - CICD-Production'
         default: "false"
         required: true
         
-      CICD_dev:
+      dev_env:
         type: boolean
         description: 'multibuild - CICD-dev'
         default: "false"
         required: true
         
-      CICD_stage:
+      stage_env:
         type: boolean
         description: 'multibuild - CICD-stage'
         default: "false"
@@ -38,12 +38,12 @@ env:
 jobs:
 
   gamio-poker-build:
-    name: Git Tag - ${{ github.tag_version }} | Job ID - ${{ github.run_number }}  || CommitID - ${{ github.sha }} || ${{github.inputs.CICD_prod }} || ${{ github.ref_name }}
+    name: Git Tag - ${{ github.tag_version }} | Job ID - ${{ github.run_number }}  || CommitID - ${{ github.sha }} || ${{github.inputs.prod_env }} || ${{ github.ref_name }}
     runs-on: ubuntu-latest
     if: |
-        contains(github.event.inputs.CICD_prod, 'true') ||
-        contains(github.event.inputs.CICD_dev, 'true') ||
-        contains(github.event.inputs.CICD_stage, 'true')
+        contains(github.event.inputs.prod_env, 'true') ||
+        contains(github.event.inputs.dev_env, 'true') ||
+        contains(github.event.inputs.stage_env, 'true')
       
 
     steps:
