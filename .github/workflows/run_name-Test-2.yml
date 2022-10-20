@@ -40,18 +40,21 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v3  
-      
+      uses: actions/checkout@v3 
+    - name: Get git tag  
+      uses: little-core-labs/get-git-tag@v3.0.2
+      id: tag_version
       
 #    - name: Bump version and push tag
 #      id: tag_version
 #      uses: mathieudutour/github-tag-action@v6.0
-#      with:
-#        github_token: ${{ secrets.GITHUB_TOKEN }}
+      
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}     
+          
         tag: ${{ steps.outputs.new_tag }}
         name: Release ${{ steps.outputs.new_tag }}
         body: ${{ steps.outputs.changelog }}  
