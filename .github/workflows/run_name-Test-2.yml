@@ -55,8 +55,8 @@ jobs:
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with:          
-#        tag: ${{ steps.tag_version.outputs.new_tag }}
-        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}  ${{ steps.tag_version.outputs.new_tag }}
+        tag: ${{ steps.tag_version.outputs.new_tag }}
+#        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}  ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}  
       
    
