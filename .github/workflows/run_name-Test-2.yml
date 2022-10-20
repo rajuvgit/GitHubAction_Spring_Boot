@@ -25,6 +25,15 @@ on:
         default: "false"
         required: true
         
+      print_tags:
+        description: 'True to print to STDOUT'
+        required: true 
+        type: boolean 
+      tags:
+        description: 'Test scenario tags'
+        required: true 
+        type: string  
+        
 env:
   IMAGE_TAG: ${{ github.event.release.tag_name }}
  
@@ -36,9 +45,12 @@ jobs:
     if: |
         contains(github.event.inputs.CICD_prod, 'true') ||
         contains(github.event.inputs.CICD_dev, 'true') ||
-        contains(github.event.inputs.CICD_stage, 'true')
+        contains(github.event.inputs.CICD_stage, 'true') ||
+        contains(github.event.inputs.print_tags, 'true')
 
     steps:
+    - name: Print the input tag to STDOUT
+      run: echo  The tags are ${{ inputs.tags }} 
     - name: checkout
       uses: actions/checkout@v3 
 #    - name: Get git tag  
