@@ -24,11 +24,7 @@ on:
         description: 'multibuild - CICD-stage'
         default: "false"
         required: true
-        
-      print_tags:
-        description: 'True to print to STDOUT'
-        required: true 
-        type: boolean 
+         
       tags:
         description: 'Test scenario tags'
         required: true 
@@ -45,8 +41,8 @@ jobs:
     if: |
         contains(github.event.inputs.CICD_prod, 'true') ||
         contains(github.event.inputs.CICD_dev, 'true') ||
-        contains(github.event.inputs.CICD_stage, 'true') ||
-        contains(github.event.inputs.print_tags, 'true')
+        contains(github.event.inputs.CICD_stage, 'true')
+      
 
     steps:
     - name: Print the input tag to STDOUT
