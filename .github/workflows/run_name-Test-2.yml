@@ -1,6 +1,6 @@
 name: TestPro CICD Flow  
 #run-name:  Git Tag - ${{ inputs.tags }}  | Prod-Env = ${{ inputs.CICD_prod }} | auto_cicd_${{ github.run_number }}
-run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }} ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_stage == 'true'] }}  ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} |auto_cicd_${{ github.run_number }}|${{ github.ref_name }}
+run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }} ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_stage == 'true'] }}  ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} |auto_cicd_${{ github.run_number }} | Branch- ${{ github.ref_name }}
 #         ENVs- ${{ fromJSON('["|", "gamio-prod"]')[github.event.inputs.gamio_production == 'true'] }}
 on:
 
