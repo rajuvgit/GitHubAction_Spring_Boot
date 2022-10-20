@@ -26,10 +26,10 @@ on:
         default: "false"
         required: true
          
-      tags:
-        description: 'Enter tags'
-        required: true 
-        type: string  
+#      tags:
+#        description: 'Enter tags'
+#        required: true 
+#        type: string  
         
 env:
   IMAGE_TAG: ${{ github.event.release.tag_name }}
@@ -46,8 +46,8 @@ jobs:
       
 
     steps:
-    - name: Print the input tag to STDOUT
-      run: echo  The tags are ${{ inputs.tags }} 
+#    - name: Print the input tag to STDOUT
+#      run: echo  The tags are ${{ inputs.tags }} 
     - name: checkout
       uses: actions/checkout@v3 
 #    - name: Get git tag  
