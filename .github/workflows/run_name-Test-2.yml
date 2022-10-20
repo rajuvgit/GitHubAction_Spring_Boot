@@ -1,6 +1,6 @@
 name: TestPro CICD Flow1
 #run-name:  Tag=   | Prod-Env = ${{ inputs.CICD_prod }} | CommitID - ${{ github.sha }} 
-run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }} | ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_dev == 'true'] }} | ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} | ${{ github.ref_name }}
+run-name: ENVs- ${{ fromJSON('["|", "CICD_prod"]')[github.event.inputs.CICD_prod == 'true'] }}  ${{ fromJSON('["|", "CICD_dev"]')[github.event.inputs.CICD_dev == 'true'] }}  ${{ fromJSON('["|", "CICD_stage"]')[github.event.inputs.CICD_stage == 'true'] }} | ${{ github.ref_name }}
 on:
 
   workflow_dispatch: 
