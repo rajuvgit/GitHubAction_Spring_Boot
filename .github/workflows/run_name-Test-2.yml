@@ -56,7 +56,7 @@ jobs:
       with: 
       
         #tag: b${{ github.run_number }}
-        tag:  b${{ github.run_number }}/${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} or ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} or ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}/ CommitID - ${{ github.sha }} 
+        tag:  b${{ github.run_number }}/${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }}/${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}/${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}/ CommitID - ${{ github.sha }} 
         #tag: b${{ github.run_number }}/${{ fromJSON('["prod_env"]')[github.event.inputs.prod_env == 'true'] }}/${{ fromJSON('["dev_env"]')[github.event.inputs.dev_env == 'true'] }}/${{ fromJSON('["stage_env"]')[github.event.inputs.stage_env == 'true'] }} 
 #        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }}/${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}_auto-cicd_${{ github.run_number }}
 #        name: b${{ github.run_number }}/${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} 
