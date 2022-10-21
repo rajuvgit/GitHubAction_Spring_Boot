@@ -50,15 +50,14 @@ jobs:
       id: tag_version
       uses: mathieudutour/github-tag-action@v6.0
       with:
-#        fetch-depth: '162'
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
       with: 
       
         tag: ${{ steps.tag_version.outputs.new_tag }}
-        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}_auto-cicd_${{ github.run_number }}
-#        name: auto-cicd_${{ github.run_number }}
+#        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}_auto-cicd_${{ github.run_number }}
+        name: auto-cicd_${{ github.run_number }}
         body: ${{ steps.tag_version.outputs.changelog }} 
    
     
