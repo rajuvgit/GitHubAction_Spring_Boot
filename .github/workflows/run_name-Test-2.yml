@@ -1,6 +1,6 @@
 name: TestPro CICD Flow  
 #run-name:  Git Tag - ${{ inputs.tags }}  | Prod-Env = ${{ inputs.prod_env }} | auto_cicd_${{ github.run_number }}
-run-name: ENVs- ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}  ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} | auto_cicd_${{ github.run_number }} | Branch- ${{ github.ref_name }}
+run-name: ENVs- ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}  ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} | auto-cicd ${{ github.run_number }} | Branch- ${{ github.ref_name }}
 
 on:
 
@@ -57,7 +57,7 @@ jobs:
       
         tag: ${{ steps.tag_version.outputs.new_tag }}
 #        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}_auto-cicd_${{ github.run_number }}
-        name: auto-cicd_${{ github.run_number }}
+        name: auto-cicd ${{ github.run_number }}
         body: ${{ steps.tag_version.outputs.changelog }} 
    
     
