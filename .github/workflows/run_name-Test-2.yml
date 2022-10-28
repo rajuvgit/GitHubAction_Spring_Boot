@@ -46,21 +46,20 @@ jobs:
     
     - name: checkout
       uses: actions/checkout@v3
-    - name: Git tag -1
+      
+    - name: Git tag
       id: tag_version_1
-      uses: hole19/git-tag-action@master
-      env:
-        TAG: v1.2.3
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
-#      uses: mathieudutour/github-tag-action@v6.0
-
-# Tag-2
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        custom_tag: tagName_2
+    
     - name: Git tag 2
       id: tag_version_2
-      uses: hole19/git-tag-action@master
-      env:
-        TAG: v1.2.3
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: mathieudutour/github-tag-action@v6.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        custom_tag: tagName_1  
 
 
     - name: Create a GitHub release
@@ -69,7 +68,9 @@ jobs:
       
         #tag: b${{ github.run_number }}
         tag: b${{ github.run_number }}|${{ fromJSON('["|", "Prod_env"]')[github.event.inputs.prod_env == 'true'] }}|${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}|${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}auto-cicd-${{ github.run_number }}|Commit-ID-${{ github.sha }}
-
+        name: auto-cicd-${{ github.run_number }}
+        body: ${{ steps.tag_version.outputs.changelog }}
+        
 
 #        tag: b${{ github.run_number }}|${{ fromJSON('["|", ${ github.run_number }]')[github.event.inputs.prod_env == 'true'] }}
 #        tag: b${{ github.run_number }}|${{ fromJSON('["|", ${{ github.run_number }}]')[github.event.inputs.prod_env == 'true'] }}
@@ -82,9 +83,9 @@ jobs:
 #        name: ${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }}/${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}_auto-cicd_${{ github.run_number }}
 #        name: b${{ github.run_number }}/${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} 
         
-        name: auto-cicd ${{ github.run_number }}
+        
 #        body: ${{ github.run_number }}/${{ fromJSON('["|", "prod_env"]')[github.event.inputs.prod_env == 'true'] }} ${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }} ${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }} 
-        body: ${{ steps.tag_version.outputs.changelog }}  
+          
     
    
       
