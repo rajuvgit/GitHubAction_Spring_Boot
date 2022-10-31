@@ -71,7 +71,7 @@ jobs:
         custom_tag: C${{ github.run_number }}|${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}
 
     - name: Create a GitHub release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@1
       with: 
       
         tag: ${{ github.run_number }}
