@@ -60,7 +60,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        custom_tag: tagName_1 
-        custom_tag: C${{ github.run_number }}|${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}
+        custom_tag: B${{ github.run_number }}|${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}
 
     - name: Git tag 3
       id: tag_version_3
@@ -68,7 +68,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        custom_tag: tagName_1 
-        custom_tag: D${{ github.run_number }}|${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}
+        custom_tag: C${{ github.run_number }}|${{ fromJSON('["|", "stage_env"]')[github.event.inputs.stage_env == 'true'] }}
 
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
