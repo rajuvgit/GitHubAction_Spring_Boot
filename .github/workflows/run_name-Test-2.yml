@@ -62,7 +62,7 @@ jobs:
 #        custom_tag: tagName_1 
         custom_tag: C${{ github.run_number }}
 
-    - name: Git tag 2
+    - name: Git tag 3
       id: tag_version_3
       uses: mathieudutour/github-tag-action@6.0
       with:
