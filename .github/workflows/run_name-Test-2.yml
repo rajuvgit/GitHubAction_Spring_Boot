@@ -53,7 +53,7 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        custom_tag: tagName_2
-        custom_tag: B${{ github.run_number }}|${{ fromJSON('["|", "Prod_env"]')[github.event.inputs.prod_env == 'true'] }}|${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}
+        custom_tag: B${{ github.run_number }}/${{ fromJSON('["|", "Prod_env"]')[github.event.inputs.prod_env == 'true'] }}/${{ fromJSON('["|", "dev_env"]')[github.event.inputs.dev_env == 'true'] }}
     - name: Git tag 2
       id: tag_version_2
       uses: mathieudutour/github-tag-action@v6.0
